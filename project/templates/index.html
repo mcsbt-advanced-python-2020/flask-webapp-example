@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Tweeter{% endblock %}
+
+{% block main %}
+<ul class="list-group">
+{% for tweet in tweets %}
+    <li class="list-group-item">
+        <span><a href="/{{tweet.user.username}}">{{tweet.user}}</a></span>
+        <span>{{tweet.tweet}}</span>
+    </li>
+{% endfor %}
+</ul>
+{% endblock %}
