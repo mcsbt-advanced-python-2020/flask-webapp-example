@@ -6,9 +6,22 @@
 <ul class="list-group">
 {% for tweet in tweets %}
     <li class="list-group-item">
-        <span><a href="/{{tweet.user.username}}">{{tweet.user}}</a></span>
-        <span>{{tweet.tweet}}</span>
+        <span><a href="/{{tweet.user.username}}">{{tweet.user.username}}</a></span>
+        <span>{{tweet.text}}</span>
     </li>
 {% endfor %}
 </ul>
+
+{% if session.username %}
+
+<h2>Tweet something!</h2>
+
+<form action="/tweet" method="POST">
+    <div class="form-group">
+        <textarea name="tweet" class="form-control" id="form-tweet" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">tweet</button>
+</form>
+{% endif %}
+
 {% endblock %}

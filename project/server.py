@@ -1,12 +1,21 @@
 from flask import Flask, render_template, request, abort, session, flash, redirect
 from base import app, db
-from models import User
+from models import User, Tweet
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
 @app.route("/")
 def index():
-    return render_template("index.html", session = session)
+
+    query = Tweet.query
+
+    if "username" in session:
+        user = User.query.filter(User.username == session["username"]).first()
+        query = query.filter(Tweet.user_id == user.id)
+
+    tweets = query.all()
+
+    return render_template("index.html", session = session, tweets = tweets)
 
 @app.route("/login")
 def login():
@@ -59,5 +68,16 @@ def handle_signup():
 
         return redirect("/")
 
+@app.route("/tweet", methods=["POST"])
+def handle_tweet():
+    message = request.form["tweet"]
+
+    user = User.query.filter(User.username == session["username"]).first()
+    tweet = Tweet(user = user, text = message)
+
+    db.session.add(tweet)
+    db.session.commit()
+
+    return redirect("/")
 
 app.run(debug = True)
