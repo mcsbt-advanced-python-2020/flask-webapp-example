@@ -52,6 +52,7 @@ def handle_signup():
 
         # save the user in the DB.  This will execute an insert statement to our database
         db.session.add(user)
+        db.session.commit()
 
         # save in the session the username of the user
         session["username"] = username
