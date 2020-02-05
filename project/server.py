@@ -80,4 +80,10 @@ def handle_tweet():
 
     return redirect("/")
 
+@app.route("/<username>")
+def profile(username):
+    user = User.query.filter(User.username == username).first_or_404()
+
+    return render_template("user.html", session = session, user = user)
+
 app.run(debug = True)
