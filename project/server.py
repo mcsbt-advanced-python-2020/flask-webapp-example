@@ -41,6 +41,13 @@ def handle_login():
             flash("wrong user or password")
             return render_template("login.html")
 
+@app.route("/signout")
+def signout():
+    # delete session
+    session.clear()
+
+    return redirect("/")
+
 @app.route("/signup")
 def signup():
     return render_template("signup.html")
